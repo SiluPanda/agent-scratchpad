@@ -3,6 +3,7 @@
 Lightweight key-value scratchpad for AI agent working memory.
 
 [![npm version](https://img.shields.io/npm/v/agent-scratchpad.svg)](https://www.npmjs.com/package/agent-scratchpad)
+[![npm downloads](https://img.shields.io/npm/dt/agent-scratchpad.svg)](https://www.npmjs.com/package/agent-scratchpad)
 [![license](https://img.shields.io/npm/l/agent-scratchpad.svg)](https://github.com/SiluPanda/agent-scratchpad/blob/master/LICENSE)
 [![node](https://img.shields.io/node/v/agent-scratchpad.svg)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
