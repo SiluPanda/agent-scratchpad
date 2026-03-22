@@ -98,7 +98,12 @@ function createScratchpad(options) {
         return true;
     }
     function clear() {
-        const count = store.size;
+        const now = nowFn();
+        let count = 0;
+        for (const [, entry] of store) {
+            if (!(0, ttl_js_1.isExpired)(entry, now))
+                count++;
+        }
         store.clear();
         emit('clear', { count });
     }
@@ -145,9 +150,8 @@ function createScratchpad(options) {
                 return del(`${prefix}${key}`);
             },
             clear() {
-                const now = nowFn();
                 for (const [k, entry] of store) {
-                    if (k.startsWith(prefix) && !(0, ttl_js_1.isExpired)(entry, now)) {
+                    if (k.startsWith(prefix)) {
                         store.delete(k);
                         emit('delete', { key: k, entry });
                     }

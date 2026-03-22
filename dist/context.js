@@ -1,6 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toContext = toContext;
+function escapeXml(str) {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+}
 function toContext(entries, options) {
     const format = options?.format ?? 'kv';
     const filterTags = options?.filterTags;
@@ -33,7 +41,7 @@ function toContext(entries, options) {
     }
     else if (format === 'xml') {
         body = filtered
-            .map((e) => `<entry key="${e.key}">${String(e.value)}</entry>`)
+            .map((e) => `<entry key="${escapeXml(e.key)}">${escapeXml(String(e.value))}</entry>`)
             .join('\n');
     }
     else {

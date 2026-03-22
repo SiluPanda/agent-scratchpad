@@ -115,7 +115,11 @@ export function createScratchpad(options?: ScratchpadOptions): Scratchpad {
   }
 
   function clear(): void {
-    const count = store.size;
+    const now = nowFn();
+    let count = 0;
+    for (const [, entry] of store) {
+      if (!isExpired(entry, now)) count++;
+    }
     store.clear();
     emit('clear', { count });
   }
@@ -164,9 +168,8 @@ export function createScratchpad(options?: ScratchpadOptions): Scratchpad {
         return del(`${prefix}${key}`);
       },
       clear(): void {
-        const now = nowFn();
         for (const [k, entry] of store) {
-          if (k.startsWith(prefix) && !isExpired(entry, now)) {
+          if (k.startsWith(prefix)) {
             store.delete(k);
             emit('delete', { key: k, entry });
           }

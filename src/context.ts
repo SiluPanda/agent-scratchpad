@@ -1,5 +1,14 @@
 import { ScratchpadEntry, ToContextOptions } from './types.js';
 
+function escapeXml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
 export function toContext(entries: ScratchpadEntry[], options?: ToContextOptions): string {
   const format = options?.format ?? 'kv';
   const filterTags = options?.filterTags;
@@ -34,7 +43,7 @@ export function toContext(entries: ScratchpadEntry[], options?: ToContextOptions
       .join('\n\n');
   } else if (format === 'xml') {
     body = filtered
-      .map((e) => `<entry key="${e.key}">${String(e.value)}</entry>`)
+      .map((e) => `<entry key="${escapeXml(e.key)}">${escapeXml(String(e.value))}</entry>`)
       .join('\n');
   } else {
     // kv (default)
